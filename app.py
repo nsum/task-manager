@@ -6,6 +6,8 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 # ObjectId is imported because mongo stores data in JSON like
 # format called bson
+from werkzeug.security import generate_password_hash, check_password_hash
+# We import above to enable user registration
 if os.path.exists("env.py"):
     import env
 
@@ -31,6 +33,11 @@ def get_tasks():
     tasks = mongo.db.tasks.find()
     return render_template("tasks.html", tasks= tasks)
     # 1st task is what tamplate will use and that = 2nd tasks we created (var)
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    return render_template("register.html")
 
 
 if __name__ == "__main__":
