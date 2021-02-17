@@ -35,6 +35,13 @@ def get_tasks():
     # 1st task is what tamplate will use and that = 2nd tasks we created (var)
 
 
+@app.route("/search", methods=["GET", "POST"])
+def search():
+    query = request.form.get("query")
+    tasks = list(mongo.db.tasks.find({"$text": {"$search": query}}))
+    return render_template("tasks.html", tasks=tasks)
+
+
 # Register page
 @app.route("/register", methods=["GET", "POST"])
 def register():
